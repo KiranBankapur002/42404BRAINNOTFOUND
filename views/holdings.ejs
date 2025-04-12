@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mutual Fund Holdings</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1e1e2f;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 95%;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #2a2a3d;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            overflow-x: auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        input[type="text"] {
+            padding: 12px 16px;
+            font-size: 16px;
+            width: 350px;
+            border: 1px solid #555;
+            border-radius: 8px 0 0 8px;
+            outline: none;
+            background-color: #3b3b50;
+            color: #fff;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            background-color: #4e8cff;
+            color: #fff;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #3a6fd6;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            max-width: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: auto;
+            border: 1px solid #444;
+            font-size: 15px;
+        }
+
+        th,
+        td {
+            padding: 14px 12px;
+            text-align: left;
+            border: 1px solid #444;
+            word-wrap: break-word;
+            min-width: 160px;
+            max-width: 350px;
+        }
+
+        th {
+            background-color: #3b3b50;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #2e2e42;
+        }
+
+        tr:hover {
+            background-color: #444459;
+        }
+
+        .no-results {
+            text-align: center;
+            color: #bbb;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('partials/header') %>
+    <div class="container">
+       
+        <h1>Search Mutual Fund Holdings</h1>
+
+        <form method="get" action="/holdings">
+            <input type="text" name="search" placeholder="Enter ISIN, Name, or Sector" value="<%= search %>">
+            <button type="submit">Search</button>
+        </form>
+
+        <% if (holdings.length> 0) { %>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <% Object.keys(holdings[0]).forEach(key=> { %>
+                                <th>
+                                    <%= key %>
+                                </th>
+                                <% }); %>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% holdings.forEach(row=> { %>
+                            <tr>
+                                <% Object.values(row).forEach(value=> { %>
+                                    <td>
+                                        <%= value || '-' %>
+                                    </td>
+                                    <% }); %>
+                            </tr>
+                            <% }); %>
+                    </tbody>
+                </table>
+            </div>
+            <% } else if (search) { %>
+                <div class="no-results">No matching results found.</div>
+                <% } %>
+    </div>
+</body>
+
+</html>

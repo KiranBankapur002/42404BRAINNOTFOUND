@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Stock Trends</title>
+    <meta http-equiv="refresh" content="60"> <!-- Auto-refresh every 60 seconds -->
+    <link rel="stylesheet" href="/css/stocks.css">
+</head>
+
+<body>
+    <%- include('partials/header') %>
+        <h1>📈 BSE & NSE Stock Trends</h1>
+
+        <% if (error) { %>
+            <div class="error">
+                <%= error %>
+            </div>
+            <% } else { %>
+                <div class="container">
+                    <!-- NIFTY -->
+                    <div class="stock-card">
+                        <h2>📊 NIFTY 50</h2>
+                        <div class="price">₹ <%= nifty?.regularMarketPrice %>
+                        </div>
+                        <div>
+                            Change: <%= nifty?.regularMarketChange.toFixed(2) %>
+                                (<%= nifty?.regularMarketChangePercent.toFixed(2) %>%)
+                        </div>
+
+                        <h4 style="margin-top: 1rem;">Top 5 Companies</h4>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Company</th>
+                                    <th>Price (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% topNiftyCompanies?.forEach(stock=> { %>
+                                    <tr>
+                                        <td>
+                                            <%= stock.name %>
+                                        </td>
+                                        <td>
+                                            <%= stock.price %>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- SENSEX -->
+                    <div class="stock-card">
+                        <h2>📊 SENSEX</h2>
+                        <div class="price">₹ <%= sensex?.regularMarketPrice %>
+                        </div>
+                        <div>
+                            Change: <%= sensex?.regularMarketChange.toFixed(2) %>
+                                (<%= sensex?.regularMarketChangePercent.toFixed(2) %>%)
+                        </div>
+
+                        <h4 style="margin-top: 1rem;">Top 5 Companies</h4>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Company</th>
+                                    <th>Price (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% topSensexCompanies?.forEach(stock=> { %>
+                                    <tr>
+                                        <td>
+                                            <%= stock.name %>
+                                        </td>
+                                        <td>
+                                            <%= stock.price %>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <% } %>
+
+                    <!-- News Feed -->
+                    <h2 class="news-title">📰 Latest Stock News</h2>
+                    <% if (newsArticles && newsArticles.length> 0) { %>
+                        <div class="news-container">
+                            <% newsArticles.forEach(article=> { %>
+                                <div class="news-item">
+                                    <% if (article.image) { %>
+                                        <img src="<%= article.image %>" alt="news image" class="news-img">
+                                        <% } %>
+                                            <div class="news-content">
+                                                <h4><a href="<%= article.link %>" target="_blank"
+                                                        rel="noopener noreferrer">
+                                                        <%= article.title %>
+                                                    </a></h4>
+                                                <p>
+                                                    <%= article.contentSnippet || '' %>
+                                                </p>
+                                                <small>
+                                                    <%= new Date(article.pubDate).toLocaleString() %>
+                                                </small>
+                                            </div>
+                                </div>
+                                <% }) %>
+                        </div>
+                        <% } else { %>
+                            <p style="text-align:center; color: gray;">No news articles available right now.</p>
+                            <% } %>
+</body>
+
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Ask Anything</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+    <%- include('partials/header') %>
+
+
+        <div class="main-content">
+            <div class="container">
+                <h1>Ask Anything About the Stock Market 📈</h1>
+                <form method="POST" action="/ask" id="questionForm">
+                    <textarea name="question" id="questionInput" placeholder="Type your question here..."
+                        required><%= question || '' %></textarea>
+                    <div class="button-group">
+                        <button type="submit">Submit</button>
+                        <button type="button" onclick="clearAll()">Clear</button>
+                    </div>
+                </form>
+
+                <div id="answerOutput" class="output" style="<%= answer ? '' : 'display: none;' %>">
+                    <h3>Answer:</h3>
+                    <p>
+                        <%= answer %>
+                    </p>
+                </div>
+
+                <div id="contextOutput" class="output" style="<%= context ? '' : 'display: none;' %>">
+                    <h3>Context:</h3>
+                    <p>
+                        <%= context %>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function clearAll() {
+                document.getElementById("questionInput").value = "";
+                document.getElementById("answerOutput").style.display = 'none';
+                document.getElementById("contextOutput").style.display = 'none';
+            }
+        </script>
+</body>
+
+</html>

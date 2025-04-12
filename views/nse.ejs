@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Live NSE Stock Data</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/css/nse.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>📈 Live Stock Data for <%= stockName %>
+        </h1>
+
+        <% if (error) { %>
+            <p style="color:red;">
+                <%= error %>
+            </p>
+            <% } else { %>
+                <canvas id="stockChart" width="800" height="400"></canvas>
+                <% } %>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('stockChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: <% - JSON.stringify(timestamps) %>,
+                datasets: [{
+                    label: 'Price (INR)',
+                    data: <% - JSON.stringify(prices) %>,
+                    borderColor: '#4bc0c0',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        display: true,
+                        title: { display: true, text: 'Time' }
+                    },
+                    y: {
+                        display: true,
+                        title: { display: true, text: 'Price' }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

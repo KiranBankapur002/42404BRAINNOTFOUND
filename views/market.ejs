@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>
+        <%= symbol %> Market Trends
+    </title>
+    <link rel="stylesheet" href="/css/market.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <header class="market-header">
+        <h1>
+            <%= symbol %> Market Chart
+        </h1>
+        <form method="get" action="/market" class="symbol-form">
+            <input type="text" name="symbol" placeholder="Enter symbol like TCS.BSE" required>
+            <button type="submit">Show</button>
+        </form>
+    </header>
+
+    <% if (error) { %>
+        <p class="error">
+            <%= error %>
+        </p>
+        <% } else { %>
+            <canvas id="marketChart" width="1000" height="400"></canvas>
+            <script>
+                const ctx = document.getElementById('marketChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: <% - JSON.stringify(labels) %>,
+                        datasets: [{
+                            label: '<%= symbol %> - 5 Min Interval',
+                            data: <% - JSON.stringify(prices) %>,
+                            borderColor: '#1e88e5',
+                            backgroundColor: 'rgba(30, 136, 229, 0.1)',
+                            tension: 0.3,
+                            pointRadius: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            x: {
+                                ticks: {
+                                    autoSkip: true,
+                                    maxTicksLimit: 10
+                                }
+                            },
+                            y: {
+                                beginAtZero: false
+                            }
+                        }
+                    }
+                });
+            </script>
+            <% } %>
+</body>
+
+</html>

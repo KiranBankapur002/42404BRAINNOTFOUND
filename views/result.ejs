@@ -1,0 +1,19 @@
+<!-- views/result.ejs -->
+<h2>Performance of <%= fund %>
+</h2>
+<p>Today: $<%= perf.priceToday %>, Change: <%= perf.change %>
+</p>
+<h3>Related News</h3>
+<ul>
+    <% analyzedNews.forEach(n=> { %>
+        <li>
+            <a href="<%= n.url %>">
+                <%= n.title %>
+            </a>
+            <p>
+                <%= n.summary %>
+            </p>
+        </li>
+        <% }) %>
+</ul>
+<a href="/">Back</a>
